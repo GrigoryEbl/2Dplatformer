@@ -36,11 +36,45 @@ public class Mover : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKey(upButton))
+            vertical = 1;
+
+        else if (Input.GetKey(downButton))
+            vertical = -1;
+        else vertical = 0;
+
+        if (Input.GetKey(leftButton))
+            horizontal = -1;
+
+        else if (Input.GetKey(rightButton))
+            horizontal = 1;
+        else horizontal = 0;
+
+        if (projectAxis == ProjectAxis.onlyX)
+        {
+            direction = new Vector2(horizontal, 0);
+        }
+        else
+        {
+            if (Input.GetKeyDown(addForceButton))
+                speed += addForce;
+            else if (Input.GetKeyUp(addForceButton)) speed -= addForce;
+            direction = new Vector2(horizontal, vertical);
+        }
+
+        if (horizontal > 0 && !isFacingRight)
+            Flip();
+        else if (horizontal < 0 && isFacingRight)
+            Flip();
+    }
+
     void OnCollisionStay2D(Collision2D coll)
     {
         if (coll.transform.tag == "Ground")
         {
-            body.drag = 10;
+            body.drag = 50;
             jump = true;
         }
     }
@@ -90,36 +124,5 @@ public class Mover : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
-
-        if (Input.GetKey(upButton)) 
-            vertical = 1;
-
-        else if (Input.GetKey(downButton)) 
-            vertical = -1; else vertical = 0;
-
-        if (Input.GetKey(leftButton)) 
-            horizontal = -1;
-
-        else if (Input.GetKey(rightButton)) 
-            horizontal = 1; else horizontal = 0;
-
-        if (projectAxis == ProjectAxis.onlyX)
-        {
-            direction = new Vector2(horizontal, 0);
-        }
-        else
-        {
-            if (Input.GetKeyDown(addForceButton)) 
-                speed += addForce; else if (Input.GetKeyUp(addForceButton)) speed -= addForce;
-            direction = new Vector2(horizontal, vertical);
-        }
-
-        if (horizontal > 0 && !isFacingRight)
-            Flip(); 
-        else if (horizontal < 0 && isFacingRight) 
-            Flip();
-    }
+   
 }
