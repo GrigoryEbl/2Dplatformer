@@ -2,127 +2,78 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 
 public class Mover : MonoBehaviour
 {
+    [SerializeField] private Rigidbody2D _body;
+    [SerializeField] private GameObject groundCheckPoint;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float _targetSpeed;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private bool _faceRight = true;
 
-    public enum ProjectAxis { onlyX = 0, xAndY = 1 };
-    public ProjectAxis projectAxis = ProjectAxis.onlyX;
-    public float speed = 150;
-    public float addForce = 7;
-    public bool lookAtCursor;
-    public KeyCode leftButton = KeyCode.A;
-    public KeyCode rightButton = KeyCode.D;
-    public KeyCode upButton = KeyCode.W;
-    public KeyCode downButton = KeyCode.S;
-    public KeyCode addForceButton = KeyCode.Space;
-    public bool isFacingRight = true;
-    private Vector3 direction;
-    private float vertical;
-    private float horizontal;
-    private Rigidbody2D body;
-    private float rotationY;
-    private bool jump;
+    private readonly string _run = "isRun";
+    private Animator _animator;
+    private float _speed = 0;
+    private float groundCheckRadius = 0.2f;
+    private bool isGrounded;
 
-    void Start()
+    private void Start()
     {
-        body = GetComponent<Rigidbody2D>();
-        body.fixedAngle = true;
+        _body.GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
 
-        if (projectAxis == ProjectAxis.xAndY)
-        {
-            body.gravityScale = 0;
-            body.drag = 10;
-        }
+        Animator.StringToHash(_run);
+    }
+
+    private void FixedUpdate()
+    {
+
+        isGrounded = Physics2D.OverlapCircle(groundCheckPoint.transform.position, groundCheckRadius, groundLayer);
     }
 
     void Update()
     {
-        if (Input.GetKey(upButton))
-            vertical = 1;
-
-        else if (Input.GetKey(downButton))
-            vertical = -1;
-        else vertical = 0;
-
-        if (Input.GetKey(leftButton))
-            horizontal = -1;
-
-        else if (Input.GetKey(rightButton))
-            horizontal = 1;
-        else horizontal = 0;
-
-        if (projectAxis == ProjectAxis.onlyX)
+        if (Input.GetKey(KeyCode.D) )
         {
-            direction = new Vector2(horizontal, 0);
-        }
-        else
-        {
-            if (Input.GetKeyDown(addForceButton))
-                speed += addForce;
-            else if (Input.GetKeyUp(addForceButton)) speed -= addForce;
-            direction = new Vector2(horizontal, vertical);
+            _speed = _targetSpeed;
+            transform.Translate(_targetSpeed * Time.deltaTime, 0, 0);
+            _animator.SetBool(_run, true);
+
+            if (Input.GetKey(KeyCode.D) && _faceRight == false)
+                Flip();
+
         }
 
-        if (horizontal > 0 && !isFacingRight)
-            Flip();
-        else if (horizontal < 0 && isFacingRight)
-            Flip();
+        if (Input.GetKey(KeyCode.A) )
+        {
+            _speed = _targetSpeed;
+            transform.Translate(_targetSpeed * Time.deltaTime * -1, 0, 0);
+            _animator.SetBool(_run, true);
+
+            if (Input.GetKey(KeyCode.A) && _faceRight == true)
+                Flip();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            _body.velocity = new Vector2(0, _jumpForce);
+        }
+
+        if (_speed == 0)
+        {
+            _animator.SetBool(_run, false);
+        }
+
+        _speed = 0;
     }
 
-    void OnCollisionStay2D(Collision2D coll)
+    public void Flip()
     {
-        if (coll.transform.tag == "Ground")
-        {
-            body.drag = 50;
-            jump = true;
-        }
+        _faceRight = !_faceRight;
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
     }
-
-    void OnCollisionExit2D(Collision2D coll)
-    {
-        if (coll.transform.tag == "Ground")
-        {
-            body.drag = 0;
-            jump = false;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        body.AddForce(direction * body.mass * speed);
-
-        if (Mathf.Abs(body.velocity.x) > speed / 100f)
-        {
-            body.velocity = new Vector2(Mathf.Sign(body.velocity.x) * speed / 100f, body.velocity.y);
-        }
-
-        if (projectAxis == ProjectAxis.xAndY)
-        {
-            if (Mathf.Abs(body.velocity.y) > speed / 100f)
-            {
-                body.velocity = new Vector2(body.velocity.x, Mathf.Sign(body.velocity.y) * speed / 100f);
-            }
-        }
-        else
-        {
-            if (Input.GetKey(addForceButton) && jump)
-            {
-                body.velocity = new Vector2(0, addForce);
-            }
-        }
-    }
-
-    void Flip()
-    {
-        if (projectAxis == ProjectAxis.onlyX)
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 theScale = transform.localScale;
-            theScale.x *= -1;
-            transform.localScale = theScale;
-        }
-    }
-
-   
 }

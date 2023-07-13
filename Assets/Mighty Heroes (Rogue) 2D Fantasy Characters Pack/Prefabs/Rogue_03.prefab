@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &315177680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 315177681}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &315177681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315177680}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.12, y: -0.2, z: 0.33675623}
+  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000010355002302}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1000010077254928
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,8 +1668,8 @@ GameObject:
   - component: {fileID: 4000010355002302}
   - component: {fileID: 95000014247705796}
   - component: {fileID: 1702997733}
-  - component: {fileID: 1702997736}
-  - component: {fileID: 1702997732}
+  - component: {fileID: 1343261221}
+  - component: {fileID: 1343261222}
   m_Layer: 0
   m_Name: Rogue_03
   m_TagString: Untagged
@@ -1659,6 +1690,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000014081584180}
+  - {fileID: 315177681}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1702,8 +1734,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!70 &1702997736
+  m_Constraints: 4
+--- !u!70 &1343261221
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1716,10 +1748,10 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.23425674, y: 3.9547796}
-  m_Size: {x: 4.587372, y: 8.100798}
+  m_Offset: {x: -0.19691849, y: 3.923295}
+  m_Size: {x: 4.8118896, y: 8.012976}
   m_Direction: 0
---- !u!114 &1702997732
+--- !u!114 &1343261222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1731,16 +1763,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9414a65ccceae74c96d8aa086bb1a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectAxis: 0
-  speed: 150
-  addForce: 7
-  lookAtCursor: 0
-  leftButton: 97
-  rightButton: 100
-  upButton: 119
-  downButton: 115
-  addForceButton: 32
-  isFacingRight: 1
+  _speed: 3
+  _jumpForce: 7
+  _body: {fileID: 1702997733}
+  groundCheckPoint: {fileID: 315177680}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1000013282564718
 GameObject:
   m_ObjectHideFlags: 0
