@@ -95,11 +95,4 @@ public class WaypointMovement : MonoBehaviour
         else
             _animator.SetBool(_walk, false);
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-
-        Gizmos.DrawLine(_rayPoint.position, _target.transform.position);
-    }
 }
