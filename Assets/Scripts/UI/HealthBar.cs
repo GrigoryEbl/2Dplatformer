@@ -14,24 +14,39 @@ public class HealthBar : MonoBehaviour
     private void Start()
     {
         _slider = GetComponentInChildren<Slider>();
-        ShowHealth(_player.Health);
+        ShowHealth();
         _slider.value = _player.Health / _player.MaxHealth;
     }
 
-    public IEnumerator ChangeHealth(float targetValue)
+    public IEnumerator ChangeHealth(float target)
     {
-        ShowHealth(_player.Health);
+        ShowHealth();
 
-        while (_slider.value != targetValue)
+        while (_slider.value != target)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, targetValue, _time * Time.deltaTime);
+            _slider.value = Mathf.MoveTowards(_slider.value, target, _time * Time.deltaTime);
 
             yield return null;
         }
     }
 
-    private void ShowHealth(float value)
+    private void OnEnable()
     {
-        _text.text = value.ToString() + '/' + _player.MaxHealth;
+        _player.HealthChanged += OnChangeHealth;
+    }
+
+    private void OnDisable()
+    {
+        _player.HealthChanged -= OnChangeHealth;
+    }
+
+    private void OnChangeHealth(float target)
+    {
+        StartCoroutine(ChangeHealth(target));
+    }
+
+    private void ShowHealth()
+    {
+        _text.text = _player.Health.ToString() + '/' + _player.MaxHealth.ToString();
     }
 }
