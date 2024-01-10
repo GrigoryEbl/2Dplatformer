@@ -3,20 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Attack))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _health = 100f;
+    [SerializeField] private float _maxHealth = 30f;
 
+    private float _health;
     private Attack _attack;
 
     private void Awake()
     {
         _attack = GetComponent<Attack>();
+        _health = _maxHealth;
     }
 
-    private void Update()
+    public void ApplyDamage(float damage)
     {
-        print($"{name} health: " + _health);
+        _health = Mathf.Clamp(_health -= damage, 0, _maxHealth);
+
+        if (_health <= 0)
+            Die();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -30,13 +36,5 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject);
-    }
-
-    public void ApplyDamage(float damage)
-    {
-        _health -= damage;
-
-        //if (_health <= 0)
-        //  //Die();
     }
 }

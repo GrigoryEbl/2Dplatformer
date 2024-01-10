@@ -11,8 +11,6 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private float _time;
 
-    private string _healthPointName = "HP";
-
     private void Start()
     {
         _slider = GetComponentInChildren<Slider>();
@@ -20,29 +18,20 @@ public class HealthBar : MonoBehaviour
         _slider.value = _player.Health / _player.MaxHealth;
     }
 
-    public void ChangeHealth()
+    public IEnumerator ChangeHealth(float targetValue)
     {
         ShowHealth(_player.Health);
 
-        //while (_slider.value != _player.Health / _player.MaxHealth)
-        //{
-        //    _slider.value = Mathf.MoveTowards(_slider.value, _player.Health / _player.MaxHealth, _time * Time.deltaTime);
-        //}
+        while (_slider.value != targetValue)
+        {
+            _slider.value = Mathf.MoveTowards(_slider.value, targetValue, _time * Time.deltaTime);
+
+            yield return null;
+        }
     }
-
-    //public IEnumerator ChangeHealth()
-    //{
-    //    ShowHealth(_player.Health);
-
-    //    while (_slider.value != _player.Health / _player.MaxHealth)
-    //    {
-    //        _slider.value = Mathf.MoveTowards(_slider.value, _player.Health / _player.MaxHealth, _time * Time.deltaTime);
-    //        yield return null;
-    //    }
-    //}
 
     private void ShowHealth(float value)
     {
-        _text.text = value.ToString() + _healthPointName + '/' + _player.MaxHealth;
+        _text.text = value.ToString() + '/' + _player.MaxHealth;
     }
 }

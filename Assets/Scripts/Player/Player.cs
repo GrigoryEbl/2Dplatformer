@@ -6,47 +6,39 @@ using UnityEngine;
 [RequireComponent(typeof(Attack))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _maxHealth = 100f;
     [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private float _maxHealth = 100f;
 
-    private float _currentHealth;
+    private float _health;
     private Attack _attack;
 
-    public float Health => _currentHealth;
+    public float Health => _health;
     public float MaxHealth => _maxHealth;
 
     private void Awake()
     {
-        _currentHealth = _maxHealth;
+        _healthBar = FindAnyObjectByType<HealthBar>();
+        _health = _maxHealth;
         _attack = GetComponent<Attack>();
     }
 
-    private void Update()
+    public void Heal(float addedHealth)
     {
-        print("Player health: " + _currentHealth);
+        _health = Mathf.Clamp(_health += addedHealth, 0, _maxHealth);
+        _healthBar.StartCoroutine(_healthBar.ChangeHealth(_health / _maxHealth));
+    }
+
+    public void ApplyDamage(float damage)
+    {
+        _health = Mathf.Clamp(_health -= damage, 0, _maxHealth);
+        _healthBar.StartCoroutine(_healthBar.ChangeHealth(_health / _maxHealth));
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.collider.TryGetComponent(out Enemy enemy))
         {
-           _attack.TakeDamage(enemy);
+            _attack.TakeDamage(enemy);
         }
-    }
-
-    public void Heal(float addedHealth)
-    {
-        if (_currentHealth + addedHealth >= _maxHealth)
-            _currentHealth = _maxHealth;
-        else
-            _currentHealth += addedHealth;
-
-        _healthBar.ChangeHealth();
-    }
-
-    public void ApplyDamage(float damage)
-    {
-        _currentHealth -= damage;
-        _healthBar.ChangeHealth();
     }
 }
