@@ -3,57 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Attack))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _attackDistance;
-    [SerializeField] private float _damage = 10f;
-    [SerializeField] private float _delay;
     [SerializeField] private float _maxHealth = 100f;
+    [SerializeField] private HealthBar _healthBar;
 
-    private float _health;
-    private float _lastAttackTime;
+    private float _currentHealth;
+    private Attack _attack;
+
+    public float Health => _currentHealth;
+    public float MaxHealth => _maxHealth;
 
     private void Awake()
     {
-        _health = _maxHealth;
+        _currentHealth = _maxHealth;
+        _attack = GetComponent<Attack>();
     }
 
     private void Update()
     {
-        _lastAttackTime -= Time.deltaTime;
-        print("Player health: " + _health);
+        print("Player health: " + _currentHealth);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.collider.TryGetComponent(out Enemy enemy))
         {
-            if (Vector2.Distance(transform.position, enemy.transform.position) <= _attackDistance)
-            {
-                if (_lastAttackTime <= 0)
-                {
-                    Attack(enemy);
-                    _lastAttackTime = _delay;
-                }
-            }
+           _attack.TakeDamage(enemy);
         }
     }
 
-    private void Attack(Enemy enemy)
+    public void Heal(float addedHealth)
     {
-        enemy.ApplyDamage(_damage);
+        if (_currentHealth + addedHealth >= _maxHealth)
+            _currentHealth = _maxHealth;
+        else
+            _currentHealth += addedHealth;
+
+        _healthBar.ChangeHealth();
     }
 
     public void ApplyDamage(float damage)
     {
-        _health -= damage;
-    }
-
-    internal void Heal(float addedHealth)
-    {
-        if (_health + addedHealth >= _maxHealth)
-            _health = _maxHealth;
-        else
-            _health += addedHealth;
+        _currentHealth -= damage;
+        _healthBar.ChangeHealth();
     }
 }

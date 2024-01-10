@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _attackDistance;
-    [SerializeField] private float _damage = 10f;
-    [SerializeField] private float _delay;
     [SerializeField] private float _health = 100f;
 
-    private float _lastAttackTime;
+    private Attack _attack;
+
+    private void Awake()
+    {
+        _attack = GetComponent<Attack>();
+    }
 
     private void Update()
     {
-        _lastAttackTime -= Time.deltaTime;
         print($"{name} health: " + _health);
     }
 
@@ -22,32 +23,20 @@ public class Enemy : MonoBehaviour
     {
         if (collision.collider.TryGetComponent(out Player player))
         {
-            if (Vector2.Distance(transform.position, player.transform.position) <= _attackDistance)
-            {
-                if (_lastAttackTime <= 0)
-                {
-                    Attack(player);
-                    _lastAttackTime = _delay;
-                }
-            }
+            _attack.TakeDamage(player);
         }
-    }
-
-    private void Attack(Player target)
-    {
-        target.ApplyDamage(_damage);
-    }
-
-    internal void ApplyDamage(float damage)
-    {
-        _health -= damage;
-
-        if (_health <= 0)
-            Die();
     }
 
     private void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void ApplyDamage(float damage)
+    {
+        _health -= damage;
+
+        //if (_health <= 0)
+        //  //Die();
     }
 }
