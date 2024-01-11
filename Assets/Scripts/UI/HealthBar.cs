@@ -20,8 +20,6 @@ public class HealthBar : MonoBehaviour
 
     public IEnumerator ChangeHealth(float target)
     {
-        ShowHealth();
-
         while (_slider.value != target)
         {
             _slider.value = Mathf.MoveTowards(_slider.value, target, _time * Time.deltaTime);
@@ -43,6 +41,7 @@ public class HealthBar : MonoBehaviour
     private void OnChangeHealth(float target)
     {
         StartCoroutine(ChangeHealth(target));
+        ShowHealth();
     }
 
     private void ShowHealth()

@@ -1,22 +1,22 @@
 using TMPro;
 using UnityEngine;
 
-public class HealthBar2 : MonoBehaviour
+public class HealthText : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Player _player;
 
     private void OnEnable()
     {
-        _player.HealthChanged += OnChangeHealth;
+        _player.HealthChanged += OnChangeText;
     }
 
     private void OnDisable()
     {
-        _player.HealthChanged -= OnChangeHealth;
+        _player.HealthChanged -= OnChangeText;
     }
 
-    private void OnChangeHealth(float target)
+    private void OnChangeText(float target)
     {
         _text.text = _player.Health.ToString() + '/' + _player.MaxHealth;
     }

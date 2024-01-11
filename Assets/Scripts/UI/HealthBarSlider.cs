@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar1 : MonoBehaviour
+public class HealthBarSlider : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private Player _player;
@@ -14,15 +14,15 @@ public class HealthBar1 : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.HealthChanged += OnChangeHealth;
+        _player.HealthChanged += OnChangeSlider;
     }
 
     private void OnDisable()
     {
-        _player.HealthChanged -= OnChangeHealth;
+        _player.HealthChanged -= OnChangeSlider;
     }
 
-    private void OnChangeHealth(float target)
+    private void OnChangeSlider(float target)
     {
         _slider.value = target;
     }
