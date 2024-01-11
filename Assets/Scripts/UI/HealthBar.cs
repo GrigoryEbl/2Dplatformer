@@ -4,18 +4,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Slider))]
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider _slider;
-    [SerializeField] private TMP_Text _text;
-    [SerializeField] private Player _player;
-    [SerializeField] private float _time;
+    [SerializeField] private Health _health;
+
+    private Slider _slider;
+    private TMP_Text _text;
+    private float _time;
 
     private void Start()
     {
-        _slider = GetComponentInChildren<Slider>();
+        _slider = GetComponent<Slider>();
+        _text = GetComponentInChildren<TMP_Text>();
+
+        _slider.value = _health.CurrentHealth / _health.MaxHealth;
         ShowHealth();
-        _slider.value = _player.Health / _player.MaxHealth;
+    }
+
+    private void OnEnable()
+    {
+        _health.HealthChanged += OnChangeHealth;
+    }
+
+    private void OnDisable()
+    {
+        _health.HealthChanged -= OnChangeHealth;
     }
 
     public IEnumerator ChangeHealth(float target)
@@ -28,16 +42,6 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        _player.HealthChanged += OnChangeHealth;
-    }
-
-    private void OnDisable()
-    {
-        _player.HealthChanged -= OnChangeHealth;
-    }
-
     private void OnChangeHealth(float target)
     {
         StartCoroutine(ChangeHealth(target));
@@ -46,6 +50,6 @@ public class HealthBar : MonoBehaviour
 
     private void ShowHealth()
     {
-        _text.text = _player.Health.ToString() + '/' + _player.MaxHealth.ToString();
+        _text.text = _health.CurrentHealth.ToString() + '/' + _health.MaxHealth.ToString();
     }
 }

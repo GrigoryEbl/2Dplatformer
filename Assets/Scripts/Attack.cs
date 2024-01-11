@@ -21,7 +21,7 @@ public class Attack : MonoBehaviour
         _lastAttackTime -= Time.deltaTime;
     }
 
-    public void TakeDamage(Enemy target)
+    public void TakeDamage(Health target)
     {
         if (Vector2.Distance(transform.position, target.transform.position) <= _attackDistance)
         {
@@ -33,15 +33,15 @@ public class Attack : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Player target)
-    {
-        if (Vector2.Distance(transform.position, target.transform.position) <= _attackDistance)
-        {
-            if (_lastAttackTime <= 0)
-            {
-                target.ApplyDamage(_damage);
-                _lastAttackTime = _delay;
-            }
-        }
-    }
+    //public void TakeDamage(Player target)
+    //{
+    //    if (Vector2.Distance(transform.position, target.transform.position) <= _attackDistance)
+    //    {
+    //        if (_lastAttackTime <= 0)
+    //        {
+    //            target.ApplyDamage(_damage);
+    //            _lastAttackTime = _delay;
+    //        }
+    //    }
+    //}
 }

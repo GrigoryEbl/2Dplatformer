@@ -8,7 +8,7 @@ public class Healer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<Player>(out Player player))
+        if(collision.TryGetComponent<Health>(out Health player) && collision.TryGetComponent<Enemy>(out Enemy enemy) == false)
         {
             player.Heal(_addedHealth);
             Destroy(gameObject);
