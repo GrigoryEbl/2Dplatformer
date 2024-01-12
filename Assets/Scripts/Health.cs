@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
 
     public event UnityAction<float> HealthChanged;
 
-    private void Start()
+    private void Awake()
     {
         _currentHealth = _maxHealth;
     }

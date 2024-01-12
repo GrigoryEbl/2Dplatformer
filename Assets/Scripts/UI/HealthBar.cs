@@ -4,20 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Slider))]
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Health _health;
-
-    private Slider _slider;
-    private TMP_Text _text;
-    private float _time;
+    [SerializeField] private Slider _slider;
+    [SerializeField] private TMP_Text _text;
+    [SerializeField] private float _time = 1f;
 
     private void Start()
     {
-        _slider = GetComponent<Slider>();
-        _text = GetComponentInChildren<TMP_Text>();
-
         _slider.value = _health.CurrentHealth / _health.MaxHealth;
         ShowHealth();
     }
@@ -32,6 +27,12 @@ public class HealthBar : MonoBehaviour
         _health.HealthChanged -= OnChangeHealth;
     }
 
+    private void OnChangeHealth(float target)
+    {
+        StartCoroutine(ChangeHealth(target));
+        ShowHealth();
+    }
+
     public IEnumerator ChangeHealth(float target)
     {
         while (_slider.value != target)
@@ -40,12 +41,6 @@ public class HealthBar : MonoBehaviour
 
             yield return null;
         }
-    }
-
-    private void OnChangeHealth(float target)
-    {
-        StartCoroutine(ChangeHealth(target));
-        ShowHealth();
     }
 
     private void ShowHealth()

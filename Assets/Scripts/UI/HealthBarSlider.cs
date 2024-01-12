@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
- 
+
+[RequireComponent(typeof(Slider))]
 public class HealthBarSlider : MonoBehaviour
 {
-    private Slider _slider;
     [SerializeField] private Health _health;
+
+    private Slider _slider;
 
     private void Start()
     {

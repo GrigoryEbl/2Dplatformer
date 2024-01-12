@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 935123751876883453}
   - component: {fileID: 935123751876883452}
-  - component: {fileID: 935123751876883455}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -27,8 +26,8 @@ RectTransform:
   m_GameObject: {fileID: 935123751876883450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 935123753190278468}
   - {fileID: 935123753332631744}
@@ -92,22 +91,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &935123751876883455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935123751876883450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52211fd8a63bde34692c325cc51b3171, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _slider: {fileID: 935123751876883452}
-  _text: {fileID: 935123752504294699}
-  _player: {fileID: 0}
-  _time: 0
 --- !u!1 &935123752129227932
 GameObject:
   m_ObjectHideFlags: 0

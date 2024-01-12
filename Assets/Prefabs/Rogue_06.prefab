@@ -971,8 +971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1965ae90722d4f245a9c37972397aef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 30
-  _prefab: {fileID: 935123751876883455, guid: d438155bd389128449d983b5df97b982, type: 3}
 --- !u!114 &2837573053515936193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1000,7 +998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf72ffbf63c10746b2d5e1134d33fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 30
 --- !u!1 &1000012079282026
 GameObject:
   m_ObjectHideFlags: 0

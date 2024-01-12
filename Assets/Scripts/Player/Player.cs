@@ -12,9 +12,9 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.TryGetComponent(out Health enemy))
+        if (collision.collider.TryGetComponent(out Health health) && collision.collider.TryGetComponent(out Enemy enemy))
         {
-            _attack.TakeDamage(enemy);
+            _attack.TakeDamage(health);
         }
     }
 }
