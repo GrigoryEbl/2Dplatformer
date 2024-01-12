@@ -2,7 +2,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Scaner))]
 
 public class WaypointMovement : MonoBehaviour
 {
@@ -10,23 +9,25 @@ public class WaypointMovement : MonoBehaviour
     [SerializeField] private bool _isFaceRight = true;
     [SerializeField] private float _speed;
     [SerializeField] private float _boostSpeed;
-    [SerializeField] private Player _player;
-    [SerializeField] private Transform _rayPoint;
+    [SerializeField] private Transform _sprite;
 
+    private Player _player;
+    private Scaner _scaner;
     private readonly string _walk = "isWalk";
     private Animator _animator;
     private Transform[] _points;
     private int _currentPoint;
-    private Scaner _scaner;
+
     private Transform _target;
     private float _currentSpeed;
 
 
-    private void Start()
+    private void Awake()
     {
-        _currentSpeed = _speed;
+        _player = FindObjectOfType<Player>();
+        _scaner = GetComponentInChildren<Scaner>();
         _animator = GetComponent<Animator>();
-        _scaner = GetComponent<Scaner>();
+        _currentSpeed = _speed;
         _points = new Transform[_path.childCount];
 
         for (int i = 0; i < _path.childCount; i++)
@@ -72,19 +73,19 @@ public class WaypointMovement : MonoBehaviour
 
     private void Flip()
     {
-        Vector3 scaler = transform.localScale;
+        Vector3 scaler = _sprite.transform.localScale;
 
         if (_target.position.x < transform.position.x && _isFaceRight)
         {
             _isFaceRight = !_isFaceRight;
             scaler.x *= -1;
-            transform.localScale = scaler;
+            _sprite.transform.localScale = scaler;
         }
         else if (_target.position.x > transform.position.x && !_isFaceRight)
         {
             _isFaceRight = !_isFaceRight;
             scaler.x *= -1;
-            transform.localScale = scaler;
+            _sprite.transform.localScale = scaler;
         }
     }
 

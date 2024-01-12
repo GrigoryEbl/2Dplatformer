@@ -12,6 +12,7 @@ public class Mover : MonoBehaviour
     [SerializeField] private float _targetSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private bool _faceRight = true;
+    [SerializeField] private Transform _sprite;
 
     private readonly string _run = "isRun";
     private Animator _animator;
@@ -72,8 +73,8 @@ public class Mover : MonoBehaviour
     public void Flip()
     {
         _faceRight = !_faceRight;
-        Vector3 scaler = transform.localScale;
+        Vector3 scaler = _sprite.transform.localScale;
         scaler.x *= -1;
-        transform.localScale = scaler;
+        _sprite.transform.localScale = scaler;
     }
 }

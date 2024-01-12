@@ -21,13 +21,27 @@ public class Health : MonoBehaviour
 
     public void Heal(float addedHealth)
     {
-        _currentHealth = Mathf.Clamp(_currentHealth += addedHealth, 0, _maxHealth);
+        float targetHealth = _currentHealth += addedHealth;
+
+        _currentHealth = Mathf.Clamp(targetHealth, 0, _maxHealth);
+
+        Die();
         HealthChanged?.Invoke(_currentHealth / _maxHealth);
     }
 
     public void ApplyDamage(float damage)
     {
-        _currentHealth = Mathf.Clamp(_currentHealth -= damage, 0, _maxHealth);
+        float targetHealth = _currentHealth -= damage;
+
+        _currentHealth = Mathf.Clamp(targetHealth, 0, _maxHealth);
+
+        Die();
         HealthChanged?.Invoke(_currentHealth / _maxHealth);
+    }
+
+    private void Die()
+    {
+        if (_currentHealth <= 0)
+            gameObject.SetActive(false);
     }
 }

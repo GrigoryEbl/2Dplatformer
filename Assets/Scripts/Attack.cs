@@ -32,16 +32,4 @@ public class Attack : MonoBehaviour
             }
         }
     }
-
-    //public void TakeDamage(Player target)
-    //{
-    //    if (Vector2.Distance(transform.position, target.transform.position) <= _attackDistance)
-    //    {
-    //        if (_lastAttackTime <= 0)
-    //        {
-    //            target.ApplyDamage(_damage);
-    //            _lastAttackTime = _delay;
-    //        }
-    //    }
-    //}
 }
