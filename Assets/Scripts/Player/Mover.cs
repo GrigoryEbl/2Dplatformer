@@ -30,7 +30,6 @@ public class Mover : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.transform.position, groundCheckRadius, groundLayer);
     }
 
